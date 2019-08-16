@@ -1,0 +1,202 @@
+'''
+CSDN : https://blog.csdn.net/Brouce__Lee/article/details/81872040
+'''
+
+1、初次安装需要在终端配置：
+$ git config --global user.name "perryleung"
+$ git config --global user.email "lscperry@163.com"
+然后用查看是否配置完成：
+$ git config --list
+
+2、三个地方，每个地方下都有file
+No.1 Working Directory，在工作目录中添加、修改文件
+No.2 Stage(Index)，将需要进行版本管理的文件放入暂存区域
+No.3 Repository(HEAD)，将暂存区域的文件提交到Git仓库 
+对应三种状态：已修改(modified)；已暂存(staged)；已提交(committed)
+
+3、在工作的电脑里创建一个文件夹，此文件夹就是你的工作区就是电脑里存放项目的地方，在此路径下初始化
+$ git init
+
+4、创建一个README.md，然后按以下步骤添加到暂存区到仓库，这里用add命令时若有要添加多文件则用*来全部添加
+$ git add README.md
+$ git commit -m "add a readme file"
+
+5、查看状态
+$ git status
+但如果能看看具体修改了什么内容就更好了：
+$ git diff <filename> 
+'-'代表旧，'+'代表新　
+也可以对比两个历史快照
+$ git diff <ID1> <ID2>
+
+6、新建一个文本文件把命名为LICENSE，把以下内容添加进去，添加git MIT LICENSE
+以下的<2012-2018>改为自己的时间
+以下的Scott Chacon and others改为自己的名字
+Copyright (c) 2012-2018 Scott Chacon and others
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE
+LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION
+OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION
+WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+7、如果添加了某个文件到仓库区域，但是想反悔，想后退一步，意思是撤回最近的一次仓库区提交：
+$ git reset HEAD <filename>
+<filename>可选，若上一步中提交了很多文件，不写filename时则全部撤回，写filename则撤回filename文件
+
+8、把上一次提交到暂存区的文件覆盖回电脑文件夹下工作区的文件，此命令较危险一不小心自己的工作被丢掉
+$ git checkout -- <filename>
+
+9、如果某文件已经提交到暂存区，而对应的文件在工作区被修改了，需要再：
+$ git add <filename>
+$ git commit -m ""
+可以理解为不同的区域都可以有三个对应的文件，但是要提交更新
+
+10、查看历史提交记录，这是针对仓库的：
+$ git log
+
+11、以下是命令和文件在工作区之间的转换：
+Working Directory --- add ---> Stage(Index) --- commit ---> Repository(HEAD)
+Working Directory <--- checkout --- Stage(Index) <--- reset --- Repository(HEAD)
+
+12、举例子：如果仓库为提交了三次文件，那么仓库指针HEAD是指向最新提交的文件，使用以下命令可以将仓库指针指向目前最新版本a文件的前一个版本b文件，并且将b文件放置在暂存区，这称为快照回滚，快照也可称为版本
+$ git reset HEAD~　　　 //上一个快照
+$ git reset HEAD~~   //上两个快照
+$ git reset HEAD~~~  //上三个快照
+$ git reset HEAD~3   //上三个快照	//影响暂存区和仓库　[--mixed]这是默认的
+
+13、针对上个例子12可以还有单单是撤销commit，意思是在仓库将指针指向前一个快照，而在暂存区不变：
+$ git reset --soft HEAD~		//只影响仓库
+
+14、针对上个例子13还有更大修改范围的是，将仓库里的指针指向前一个快照，同时在暂存区和电脑文件夹下的工作区同样覆盖掉，这是危险的，会影响到工作区的工作内容：
+$ git reset --hard HEAD~		//影响三个区
+
+15、快照不仅可以往回滚也可以往前滚，要利用快照ID，就是git log 的每个版本下的哈希值
+$ git reset 版本快照ID号		//哈希值下的前5或6或7的值就可
+
+16、查看全部提交历史并展示每次修改的内容
+$ git log -p
+
+17、如果想查看到快照ID，遗留的，：
+$ git reflog
+
+18、比较工作区电脑工作目录和仓库的快照：
+$ git diff <目前仓库的快照ID>     	//常用，或者以下
+$ git diff HEAD
+
+19、比较当前暂存区快照和仓库的快照：
+$ git diff --cached [目前仓库的快照ID]
+
+20、普通对比工作区与暂存区的快照:
+$ git diff <filename>
+一般在git status查看快照名字之后使用
+
+21、遇到两种情况：
+第一：快照刚一提交(commit)到仓库突然想起漏掉两个文件还没有添加(add)
+第二：版本刚一提交(commit)到仓库突然想起要修该版本说明，就是""内容
+那么可以用以下执行带 --amend 的方法“更正”最近的一次提交：
+$ git commit --amend -m ""		//或
+$ git commit --amend 
+
+22、若不小心删除了某文件
+$ git checkout -- <filename>
+
+23、若想删除某个已经add和commit的文件：
+$ git rm <filename>
+$ git reset --soft HEAD~
+git　rm　文件名删除的只是工作目录和暂存区的文件，也就是取消跟踪，在下次提交时不纳入版本管理，因此要--soft
+这个删除的前提是要求工作目录和暂存区的文件内容一致
+
+24、只想删除暂存区的文件：
+$ git rm --cached <filename>
+
+25、文件重命名
+$ git mv <old_filename> <new_filename>
+
+26、创建分支		//默认主支名字是master
+$ git branch <branch_name>
+$ git log --decorate 		//显示所有指向这个分支的引用
+
+27、切换分支
+$ git checkout <branch_name>
+$ git log --decorate --oneline	//显示精简版的信息
+另外还有以下操作是新建分支并切换到该分支
+$ git checkout -b <branch_name>
+
+28、查看分支间的修改
+$ git log --decorate --oneline --graph --all	//选项的先后顺序无关系
+
+29、合并分支，将指定的分支合并到本分支来
+$ git merge <branch_name>
+先切换到你想保留的主分支，然后执行上句，合并的前提是不能有冲突，冲突的意思是有相同的文件但文件内容不同
+
+30、合并过后的分支若没有利用价值需要删掉省去空间
+$ git branch -d <branch_name>
+
+31、创建匿名分支危险，因为在匿名分支下所有的操作都会被丢弃，这里可以进行一些试验性的实验
+$ git checkout HEAD~
+
+32、举例在界面新创一个仓库后建立一个README.md，echo "# git_learning" >> README.md
+$ git init
+$ git add README.md
+$ git commit -m "first commit"
+$ git remote add origin https://github.com/perryleung/git_learning.git
+$ git push -u origin master
+
+
+==================================================================================================
+
+- 1. 仓库存放项目代码，一个仓库对应一个项目
+
+- 2. fork　是将别人的仓库完整地复制到自己账户下，搬移新建独立存在，自己修改后可以发起pull request让原仓库使用者同步仓库的内容
+
+- 3. watch是针对项目的，相当于社交的follow
+
+- 4. 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
