@@ -149,12 +149,13 @@ $ git branch -d <branch_name>
 31、创建匿名分支危险，因为在匿名分支下所有的操作都会被丢弃，这里可以进行一些试验性的实验
 $ git checkout HEAD~
 
-32、举例在界面新创一个仓库后建立一个README.md，echo "# git_learning" >> README.md
+32、举例在界面新创一个仓库后，在命令行建立一个README.md，echo "# git_learning" >> README.md
 $ git init
 $ git add README.md
 $ git commit -m "first commit"
 $ git remote add origin https://github.com/perryleung/git_learning.git
 $ git push -u origin master
+上面最后一个步骤是为了将本地的“仓库”提交到远程的“仓库”
 
 
 ==================================================================================================
@@ -163,9 +164,32 @@ $ git push -u origin master
 
 - 2. fork　是将别人的仓库完整地复制到自己账户下，搬移新建独立存在，自己修改后可以发起pull request让原仓库使用者同步仓库的内容
 
-- 3. watch是针对项目的，相当于社交的follow
+- 3. watch是针对项目的，相当于社交的follow，被关注的项目一旦更新后，关注者会被提醒
 
-- 4. 
+- 4. 界面使用ISSUE向他人项目反馈问题
+
+- 5. touch xx.py 是创建一个文件，而　mkdir xxx 是创建一个文件夹
+
+- 6.删除文件步骤跟提交文件步骤相似：
+$ rm xx.py
+$ git rm xx.py 		//从git中删除
+$ git commit -m ""
+
+- 7. 将本地仓库提交到远程仓库
+$ git push
+
+- 8. 建议先在远程(github)中创建一个想项目(仓库)，然后克隆到本地，这样就可以连接到本地，上面第32步中同样有，容易理解一点的意思是被克隆到本地的完整的仓库已经自动初始化了；也可以在本地建立仓库初始化后上传github，参考上面第32步骤
+
+- 9. 若在push时出现以下错误无法同步，或没有权限
+"The requested URL returned error: 403 Forbidden while accessing"
+解决方法：私有项目，没有权限，输入用户名密码，或者远程地址采用这种类型：
+$ vim .git/config
+# 将
+[remote "origin"]
+	url = https://github.com/用户名/仓库名.git
+修改为：
+[remote "origin"]
+	url = https://用户名:密码@github.com/用户名/仓库名.git
 
 
 
