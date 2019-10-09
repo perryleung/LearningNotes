@@ -338,7 +338,11 @@ char32_t无符号长32bit
 113.cout自动去除数字后面的零,为了不去掉可用以下方法:
 cout.setf(ios_base::fixed, ios_base::floatfield)
 
-114.
+114.数组之间不能相互赋值
+
+115.控制计算位置数组元素个数可以用以下方法
+int things[] = {1,2,3,4,6};
+int num_elements = sizeof(things) / sizeof(int);
 
 
 
