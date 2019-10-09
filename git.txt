@@ -160,6 +160,10 @@ $ git remote add origin https://github.com/perryleung/git_learning.git
 $ git push -u origin master
 上面最后一个步骤是为了将本地的“仓库”提交到远程的“仓库”
 
+33.对比本地仓库和远程仓库,从远程仓库拉下到本地仓库
+$ git fetch origin
+$ git log master ..origin/master
+$ git pull origin master
 
 ==================================================================================================
 
