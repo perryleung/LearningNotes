@@ -152,6 +152,7 @@ $ git branch -d <branch_name>
 $ git checkout HEAD~
 
 32、举例在界面新创一个仓库后，在命令行建立一个README.md，echo "# git_learning" >> README.md
+这里的git_learning是仓库的名字,要在远程既在github上创建同名字仓库
 $ git init
 $ git add README.md
 $ git commit -m "first commit"
