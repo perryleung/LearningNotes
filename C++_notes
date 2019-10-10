@@ -344,7 +344,14 @@ cout.setf(ios_base::fixed, ios_base::floatfield)
 int things[] = {1,2,3,4,6};
 int num_elements = sizeof(things) / sizeof(int);
 
+116.字符串结尾是'\0'，其ASCII码是0，用cout打印字符串时要注意其末尾是否加有'\0'，这是一种非常不实用的方法，因此用下：
+char bird[11] = "Mr.A";		//这被称为字符串常量
+这样初始化就隐式地包括了字符串结尾地空字符，要保证数组足够大包括起来
 
+117.字符常量（单引号）可以当作是ASCII码的另一种形式，下面是将83赋给shirt_size：
+char shirt_size = 'S';
+
+118.
 
 
 
