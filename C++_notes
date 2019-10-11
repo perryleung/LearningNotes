@@ -351,7 +351,18 @@ char bird[11] = "Mr.A";		//这被称为字符串常量
 117.字符常量（单引号）可以当作是ASCII码的另一种形式，下面是将83赋给shirt_size：
 char shirt_size = 'S';
 
-118.
+118.用于检测字符数组的长度可以用如下：
+#include <cstring>
+const int size = 15;
+char a[size] = "c++sdf";
+cout<<strlen(a);
+strlen()只是计算可见的字符
+
+119.若想读取字符数组前面几个字符，可以在中间插入或改写'\0'，在用cout读取即可：
+a[3] = '\0';
+cout << a;   // c++
+
+120.cin对输入的只能识别到空格前
 
 
 
