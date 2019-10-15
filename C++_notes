@@ -515,7 +515,16 @@ pointername[i] becomes *(pointername+i);	//valid
 pointername = pointername + 1;			//valid
 arrayname = arrayname + 1;			//not allowed
 
-145. sizeof运算符对数组得到的是数组的长度:例如double的字节*数组元素个数,而对指针得到的是指针的长度:例如
+145. 允许指针和整数相加,加1的结果等于原来地址值加上指向的对象占用的总字节数,还可以将一个指针减去另一个指针获得两个指针的差,仅当两个指针指向同一个数组时,将得到两个元素的间隔
+
+146. tacos[0] means *tacos; tacos[3] means *(tacos + 3);
+
+147. 头文件cstring, strcpy(), strlen()
+
+148. 如果指针的类型是char* , 则cout将显示指向的字符串,但要显示其地址,必须要强制转换为另一个指针类型,如(int *)
+
+149. 看到4.8.4 114页\132页
+
 
 
 
