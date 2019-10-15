@@ -496,9 +496,26 @@ pn指向的内存没有名称,被称为数据对象,数据对象指的是为数�
 typeName * pointer_name = new typeName;
 用来指定需要什么样的内存和用来声明合适的指针
 
-142. 静态连编\动态连编,前者是编译时决策,后者是运行时决策,适用于大数据时
+142. 静态连编\动态连编,前者是编译时决策,后者是运行时决策,适用于大型数据:数组\字符串\结构
 
+143. 创建动态数组要将数组的元素类型和元素数目告诉new,如下:
+type_name * pointer_name = new type_name [num_elements];
+int * psome = new int [10];
+//new运算符返回地一个元素的地址
+delete [] psome;
+//	数组的元素读取:psome[0] \ psome[1] \ psome[2] \ ... \ psome[9]
+//	psome指的是指向第一个元素的指针
+//	psome = psome + 1; 指的是指针变量加一,将指向下一个元素的地址,即现在psome[0]的值是原来psome[1]的值,psome[1]是原来psome[2]
+备注:
+由上述可知将指针变量加一后,增加的量等于它指向的类型的字节数
 
+144. 在数组和指针的应用中有一些技巧:
+arrayname[i] becomes *(arrayname+i);		//valid
+pointername[i] becomes *(pointername+i);	//valid
+pointername = pointername + 1;			//valid
+arrayname = arrayname + 1;			//not allowed
+
+145. sizeof运算符对数组得到的是数组的长度:例如double的字节*数组元素个数,而对指针得到的是指针的长度:例如
 
 
 
