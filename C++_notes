@@ -415,10 +415,88 @@ getline(cin,strr);
 
 131. 可以使用赋值符号=将结构赋值给另一个同类型的结构,可以创建结构体数组
 
-132. 看到-> 4.5共同体
+132. 共同体(union)能存储不同的数据格式,但只能同时存储其中一种,结构体是可以同时存储int\long\和double,而共同体只能存储int或long或double,共同体的长度为其最大成员的长度
 
+133. 共同体的用途是节省内存,另外还有匿名共同体,其成员都是位于相同地址的变量,可以以下用处:
+struct widget
+{
+	char brand[20];
+	int type;
+	union id
+	{
+		long id_num;
+		char id_char[20];
+	}id_val;
+};
+...
+widget prize;
+...
+if(prize.type == 1)
+	cin >> prize.id_val.id_num;
+else
+	cin >> prize.id_val.id_char;
+########以下匿名共同体,id_num和id_char相同地址,被视为prize的两个成员而不需要中间标识符id_val
+struct widget
+{
+	char brand[20];
+	int type;
+	union
+	{
+		long id_num;
+		char id_char[20];
+	};
+};
+...
+widget prize;
+...
+if(prize.type == 1)
+	cin >> prize.id_num;
+else
+	cin >> prize.id_char;
 
+134. enum枚举创建了符号常量,如下:
+enum spectrum {red, orange, yellow, green, blue, violet, indigo, ultraviolet}; //对应的整数值 0-7
+spectrum band;
+band = blue;	//枚举量只有等号赋值,而且赋值的内容被规定
+或:
+enum {red, orange, yellow, green, blue, violet, indigo, ultraviolet};
+这情况是只打算使用常量,而不创建枚举类型的变量
 
+135. 枚举的取值范围 C++ primer plus 4.6.2
+
+136. 指针是一个变量,这个指针变量是存储变量的地址的,用取址符号可以(&)赋值,(*)是间接值或解除引用运算符,用于指针可以得到该地址处存储的值
+
+137. 编译阶段决策\运行阶段决策
+
+138. 可以在声明语句中初始化指针,被初始化的是指针,而不是它指向的值
+int higgens = 5;
+int * pt = &higgens;
+
+139. C++创建指针时只会分配用来存储地址的内存,而不会分配用来存储指针所指向的数据的内存,为数据提供空间是一个独立的步骤
+long * fellow;
+*fellow = 2233;
+这情况会很危险,2233将被存在地址2233上,一定要在对指针应用解除引用运算符(*)之前,将指针初始化为一个确定的适当的地址,这是关于指针使用的金科玉律
+
+140. 指针描述的是位置,通常是整数,不能对指针进行操作,要将数字值作为地址来使用,应通过强制类型转换数字转换为适当的地址类型
+
+141.在运行阶段为一个int值分配未命名的内存,并使用指针来访问这个值
+1)关键字new
+需要告诉new为哪种数据类型分配内存,new将找到一个长度合适的内存块并返回该内存块的地址,如
+int *pn = new int;		//allocate memory with new
+. . . 					//use the memory
+delete pn;				//free memory with delete when done
+备注:
+delete只能用对应的new分配的指针内存
+2)将变量的地址赋给指针
+int higgens;
+int *pt = &higgens;
+在第二种情况下可以通过变量名称访问该int值,而第一种情况只能通过该指针进行访问
+备注:
+pn指向的内存没有名称,被称为数据对象,数据对象指的是为数据项分配的内存块,数据对象使程序在管理内存方面有更大的控制权
+typeName * pointer_name = new typeName;
+用来指定需要什么样的内存和用来声明合适的指针
+
+142. 静态连编\动态连编,前者是编译时决策,后者是运行时决策,适用于大数据时
 
 
 
