@@ -523,7 +523,18 @@ arrayname = arrayname + 1;			//not allowed
 
 148. 如果指针的类型是char* , 则cout将显示指向的字符串,但要显示其地址,必须要强制转换为另一个指针类型,如(int *)
 
-149. 看到4.8.4 114页\132页
+149. 在运行时创建数组和结构要优于在编译时创建，要用new，具体创建结构的语句如下：
+structName *pointerName = new structName;
+备注：
+访问结构成员时需要有技巧，若是指针访问则：pointerName->member;
+而用结构名称访问成员时直接用(.)号：structName.member;
+注意*pointerName就是被指向的值，既结构本身，访问成员：(*pointerName).member;
+最后的最后：
+delete pointerName;
+
+150. 头文件cstring,strcpy(字符串首地址1，字符串首地址2)；
+
+
 
 
 
