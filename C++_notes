@@ -653,13 +653,13 @@ case标签都必须是一个单独的值，必须是整数（包括char），因
 
 177. 对于文本I/O使用cin输入时，程序将输入视为一系列的字节不管目标数据类型时什么，输入一开始都是字符数据--文本数据，每个字节都被解释为字符编码
 
-178. 头文件fstream，for file I/O
+178. 头文件fstream，for file I/O，这一个均支持输入和输出
 
 179. 声明一个ofstream对象并将其同文件关联起来后便可以像使用cout那样使用它，总之，使用文件输出的主要步骤如下：
 包含头文件fstream
-创建一个ofstream对象		//输出用的
+创建一个ofstream对象		      //输出用的
 将该ofsteam对象同一个文件关联起来	//这是新创建一个txt文件，it shoule be .txt
-				   //如果有同名字的文件则覆盖，后续将可以修改“覆盖”这一操作	
+				   //如果有同名字的文件则覆盖，后续将可以修改“覆盖”这一操作，默认截短为0	
 就像使用cout那样使用该ofstream对象
 
 180. 示例如下，要求用户自己输入，显示到屏幕&将信息写入到文件
@@ -717,6 +717,106 @@ int main()
     outFile.close();                // done with file
     return 0;
 }
+
+181. 文件输入可以结合使用cin和eof()\fail()方法来判断输入是否成功，
+对象cin本身被用作测试条件时，如果最后一个读取操作成功，它将被转换为布尔true，否则时false
+声明一个ifstream对象并将其同文件关联起来后便可以像使用cin那样使用它，所有可用于cin的操作和方法都可用于ifstream对象
+
+182. 试图打开一个不存在的文件用于输入会有很大的风险甚至出现错误，用以下的方法可以退出
+#inclue <cstdlib>	//头文件主要用于exit()
+istream inFile;
+inFile.open("AFileNotExit.txt");
+if( !inFile.is_open())
+{
+    cout << "Could not open the file " << endl;
+    cout << "Program terminating.\n";
+    exit(EXIT_FAILURE);
+}
+
+183. 
+    ifstream inFile;
+    inFile.open(filename.txt);
+    /*
+    留一段检测是否打开的代码
+    */
+    double value;
+    double sum = 0.0;
+    int count = 0;          // number of items read
+    inFile >> value;        // get first value
+    while (inFile.good())   // while input good and not at EOF
+    {
+        ++count;            // one more item read
+        sum += value;       // calculate running total
+        inFile >> value;    // get next value
+    }
+    if (inFile.eof())
+        cout << "End of file reached.\n";
+    else if (inFile.fail())
+        cout << "Input terminated by data mismatch.\n";
+    else
+        cout << "Input terminated for unknown reason.\n";
+备注：
+最后一次读取数据时遇到EOF，方法eof()返回true，是真的最后，不是每行的最后
+如果最后读取发生意外/EOF时，good()将不再是true
+
+184. 函数体结果的类型必须是函数定义时的类型或可以被转换为函数定义时的类型
+
+185. 函数原型指的是在程序开头定义函数的语句，因为它提供了程序的整体结构，也是C++的编程风格,可以帮助编译器纠错
+
+186. 函数原型是一条语句，因此必须以(;)结束，
+最简单的方法就是复制函数定义的函数头并添加分号:
+double cube(double x);
+另外函数原型也可以省略掉变量名，只要类型列表就可以了
+double cube(double,double);
+
+187. 对于函数的参数，普通的参数在mian()中定义了之后传到函数结构中，两者是不同的，函数结构只是main()中数据的副本，因此函数再怎么弄都不影响main()
+
+188. 方括号指出arr是一个数组，而方括号为空则表明是一个指针，因此在编写函数其他部分时可以当作数组和指针使用，它的意思是把数组的首个元素的地址传进给函数，这不就是指针吗？
+int sum_arr(int arr[], int n);
+sum_arr()函数将mian()的数组的地址赋给指针变量arr，将arrSize赋给n，意味着
+将数组的位置（地址）、包含的元素种类（类型）以及元素的数目（n变量）提交给函数，函数使用的是原来的数组，而不是拷贝
+
+189. 理解以下两个等式即可
+arr[i] == *(ar + i);
+&arr[i] == ar + i;
+
+190. 一种输入出错退出程序的方法：
+cin >> temp;
+if (!cin)	// bad input
+{
+    cin.clear();
+    while (cin.get() != '\n')
+        continue;
+    cout << "Bad input; input process terminated. \n";
+    break;
+}
+
+191. 为了避免函数修改数组的内容，可以再声明形参时使用关键字const
+void show_array(const double ar[], int n);
+备注：
+意味着不能使用ar修改该数据，但能够使用ar[0]这样的值
+原始的数组不一定是常量
+show_array()对于ar只是只读
+
+192. const与指针，一般有两种方式
+第一种方法是让指针指向一个常量对象，这样可以防止使用该指针来修改所指向的值
+第二种方法是将指针本身声明为常量，防止改变指针指向的位置
+-------------------------
+将常规变量的地址赋给指向const的指针：可行
+int age = 39;
+const int *pt = &age;
+不能使用pt来修改这个值，意思是*pt为const，不能修改，但pt是可变的，可以重新指向其他变量，就是第二种
+-------------------------
+将const变量的地址赋给指向const的指针：可行
+const float g_earth = 9.80;
+const float *pe = &g_earth;
+-------------------------
+将const的地址赋给常规指针：不行
+const float g_moon = 1.63;
+float *pm = &g_moon;
+因为为了避免pm修改g_moon
+
+192. 7.4 224/242
 
 
 
