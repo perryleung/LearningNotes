@@ -610,7 +610,117 @@ for(double &x : prices)
 
 170. 初始化二维数组：花括号里面用花括号
 
-171.  6.3 177/195
+171.  头文件cctype，其中包含的函数的返回类型是int而不是bool，
+备注：
+用isalpha()检测字符是否为字母字符
+用isdigits()检测字符是否为数字字符
+用isspace()检测字符是否为空白
+用ispunct()来检测字符是否为标点符号
+...还有其他字符检测，可以查看头文件说明
+
+172.  条件运算符(?:)是一个三操作数的来替代if else的运算符：
+int c = a > b ? a : b;
+
+173. switch(integer-expression)必须是一个结果为整数值的表达式，而case (标签)：
+标签常见是int或char常量，也可以是枚举量，如果都没有则跳转到default
+程序不会再执行到下一个case处自动停止，要让程序执行完一组特定语句后停止，必须使用break
+switch语句将int值和枚举量标签进行比较时，将枚举量提升为int，另外while循环测试条件中也是
+注意switch(xxx){}后不用
+如果既可以使用if else if语句，也可以使用switch语句，则当选项不少于3个时，应使用switch语句，因为它跟高效
+case标签都必须是一个单独的值，必须是整数（包括char），因此switch无法处理浮点数
+
+174. bradk和continue语句
+两者均可使程序跳过部分代码
+在switch或循环中用break，使程序跳到（switch或循环部分之后）的语句处执行
+在循环中用continue，让程序跳过这次循环中余下的代码，而重新一轮的循环
+
+175. clear()方法重置错误输入标记，同时也重置文件尾EOF条件，错误的输入和EOF都将导致cin返回false
+
+176. 
+ int golf[MAX];
+ ...
+ /*以下是一段纠正错误输入的代码*/
+ while(!(cin>>golf[i]))
+ {
+     cin.clear();    //reset input
+     while(cin.get() != '\n' )
+         continue;    //get rid of bad input
+     cout << "Please enter a number : ";
+ }
+ 因为错误的输入cin返回false，因此不会将任何值放到数组中，而进入了while循环
+ 该循环的第一条语句使用clear()方法重置输入，如果没有这个重置，程序将拒绝继续读取输入
+ 内部while用cin.get()来读取行尾之前的所有输入，从而删除这一行中的错误输入
+
+177. 对于文本I/O使用cin输入时，程序将输入视为一系列的字节不管目标数据类型时什么，输入一开始都是字符数据--文本数据，每个字节都被解释为字符编码
+
+178. 头文件fstream，for file I/O
+
+179. 声明一个ofstream对象并将其同文件关联起来后便可以像使用cout那样使用它，总之，使用文件输出的主要步骤如下：
+包含头文件fstream
+创建一个ofstream对象		//输出用的
+将该ofsteam对象同一个文件关联起来	//这是新创建一个txt文件，it shoule be .txt
+				   //如果有同名字的文件则覆盖，后续将可以修改“覆盖”这一操作	
+就像使用cout那样使用该ofstream对象
+
+180. 示例如下，要求用户自己输入，显示到屏幕&将信息写入到文件
+/*
+    cout.precision(2);
+    cout.setf(ios_base::showpoint);
+    outFile.precision(2);
+    outFile.setf(ios_base::showpoint);
+    这两个方法都是一些格式方法，主要想说明outFile可以使用所有cout可使用的任何方法
+*/
+// outfile.cpp -- writing to a file
+#include <iostream>
+#include <fstream>                  // for file I/O
+
+int main()
+{
+    using namespace std;
+
+    char automobile[50];
+    int year;
+    double a_price;
+    double d_price;
+
+    ofstream outFile;               // create object for output
+    outFile.open("carinfo.txt");    // associate with a file
+
+    cout << "Enter the make and model of automobile: ";
+    cin.getline(automobile, 50);
+    cout << "Enter the model year: ";
+    cin >> year;
+    cout << "Enter the original asking price: ";
+    cin >> a_price;
+    d_price = 0.913 * a_price;
+
+// display information on screen with cout
+
+    cout << fixed;
+    cout.precision(2);
+    cout.setf(ios_base::showpoint);
+    cout << "Make and model: " << automobile << endl;
+    cout << "Year: " << year << endl;
+    cout << "Was asking $" << a_price << endl;
+    cout << "Now asking $" << d_price << endl;
+
+// now do exact same things using outFile instead of cout
+
+    outFile << fixed;
+    outFile.precision(2);
+    outFile.setf(ios_base::showpoint);
+    outFile << "Make and model: " << automobile << endl;
+    outFile << "Year: " << year << endl;
+    outFile << "Was asking $" << a_price << endl;
+    outFile << "Now asking $" << d_price << endl;
+    
+    outFile.close();                // done with file
+    return 0;
+}
+
+
+
+
 
 
 
