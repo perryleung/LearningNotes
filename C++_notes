@@ -915,8 +915,37 @@ int & rodents = rats;
 引用的典型用法是作为函数的参数，这里只是普通的使用基础
 引用在声明时就必须初始化，这和指针不同
 
-210. 8.2.2
+210. 引用传递：函数中的变量名称为调用程序中的变量的别名，如下：
+----按值传递----
+void sneezy(int x);
+int main()
+{
+    int times = 20;
+    sneezy(times);
+    ...
+}
+void sneezy(int x)
+{...}
+----引用传递----
+void sneezy(int x);
+int main()
+{
+    int times = 20;
+    sneezy(times);
+    ...
+}
+void sneezy(int &x)
+{...}
+备注：
+按值传递是两个变量两个名称，而引用传递是一个变量两个名称
+用引用传递时只能传递变量，不能传递表达式：
+sneezy(times);		//it's okay
+sneezy(times+5);	//it's not okay
 
+211. 在使用引用参数声明的函数时，应在函数的参数声明时尽可能使用const（如果不修改参数的值的话），如下
+double refcube(const double &ra)
+
+212. 8.2.4 263/281
 
 
 
