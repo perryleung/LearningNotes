@@ -1062,10 +1062,67 @@ void Swap(T &, T &);
 函数的连接性是外部的，既可以文件共享，实际可以在函数的原型中使用关键字extern来指出函数是在另一个文件中定义的
 还可以使用static将函数的连接性设置为内部，只能在一个文件中使用，必须同时在原型和函数定义中使用static关键字
 
-238. 
+238. 初始化动态分类，单值可以用括号，其他的结构或者数组要用大括号，那么就推荐用大括号吧
+int *pi = new int {6};
+int *pi = new int (6);
+int *ar = new int [4] {1,2,3,4};
+struct where {double x; double y; double z;};
+where *one = new where {1.2, 3.4, 4.5};
 
+239. 以下是配对的函数：
+分配函数（alloction function）：
+void *operator new(std::size_t);
+void *operator new[](std::size_t);
+释放函数（deallocation function）：
+void operator delete(void *);
+void operator delete[](void *);
+std::size_t是一个typedef，对应于合适的在整形
 
+240. 可以通过定义一种新的声明区域来创建命名的名称空间，这样做的目的之一是提供一个声明名称的区域，
+在这里，一个名称空间中的名称不会与另外一个名称空间的相同名称发生冲突，同时允许程序的其他部分使用该名称空间中声明的东西
+备注：
+1）名称空间可以是全局的，也可以是另一个名称空间中的，但不能位于代码块中
+2）默认情况下在名称空间声明的名称的连接性为外部的（除非它引用了常量）
+3）全局名称空间（global namespace）对应于文件级声明区域
+4）任何名称空间中的名称都不会与其他名称空间中的名称发生冲突，如下面的fetch()函数和pal变量：
+namespace Jack{
+    double pail;
+    void fetch();
+    int pal;
+    struct Well { ... }; 
+}
+namespace Jill{
+    double bucket(double n) { ... }
+    void fetch();
+    int pal;
+    struct Hill { ... }; 
+}
+5）名称空间是开放的（open）既可以把名称加入到已有的名称空间中，如下：
+namespace Jill{
+    char * goose(const char *);
+}
+6）在原来地名称空间如果已经声明了函数原型，那么可以在该名称空间中再次使用来提供该函数的代码
+7）使用作用域解析运算符::使用名称空间中的名称
+8）可以使用using声明使用特定的标识符，如下
+using Jill::pal;
+可以使用名称pal来替代Jill::fetch
+9）using编译指令使所有的名称都可用，如下
+using namespace Jack;
+但是要小心可能不同的名称空间存在相同的名称
+10）名称空间的定义中可以发生嵌套，也可以在一个名称空间中声明另一个名称空间：在一个，名称空间中使用using namespace xxx;
 
+241. 一般利用名称空间的使用技巧：程序9.11\9.12\9.13
+一个文件写名称空间：namesp.h
+一个文件写名称空间中的函数的具体实现：namesp.cpp // 要#include"namesp.h"
+一个文件写main：namessp.cpp
+
+242. 命名空间硬核使用技巧：
+1）使用在已命名的名称空间中声明的变量而不是使用外部全局变量，也不是使用静态全局变量；
+2）如果开发一个函数库或类库，将其放在一个名称空间中
+3）仅将编译指令using作为一种将旧代码转换为使用名称空的权宜之计 	//既using namespace xxx;
+4）不要再头文件使用using编译指令
+5）导入名称时，首选使用作用解析运算符或using声明方法
+6）对于using声明，首选将其作用域设置为局部而不是全局
 
 
 
