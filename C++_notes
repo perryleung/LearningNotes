@@ -1136,7 +1136,7 @@ OOP编程与过程性编程有差异
 
 247. 如果更人性化：不要将使用类的程序视为公共用户，而将编写程序的人视为公共用户，要使用某个类，必须了解其公共接口，要编写类，必须创建其公共接口
 
-248. 通常将接口（类的定义）放在头文件中，将实现（类方法的代码）方在源代码文件中，不成文的规定：将类的的名称的首字母大写
+248. 通常将接口（类的定义）放在头文件中，将实现（类方法的代码）方在源代码文件中，每个与这类相关的源代码必须include这个头文件，不成文的规定：将类的的名称的首字母大写
 
 249. 别忘记了：
 #include <string>
@@ -1168,10 +1168,166 @@ public:
 
 255. 创建类描述的第二部分：为那些由类声明中的原型表示的成员函数提供代码，就是提供函数的实现细节
 成员函数的定义：函数头、函数体、可以有返回类型和参数，另外还有两个特征：
-定义成员函数时，使用作用域解析运算符（::）来标识函数所属的类；
-类方法可以访问private组件，就是定义的类的成员函数可以访问私有成员；
+1）定义成员函数时，使用作用域解析运算符（::）来标识函数所属的类；
+2）类方法可以访问private组件，就是定义的类的成员函数可以访问私有成员；
+备注：
+假设要定义Stock()类的update成员函数，那么其定义时的函数头应该是：
+void Stock::update(double price)
+说明我们定义的是Stock类的成员，意味着还可以定义其他类的同名的函数：
+void Buffoon::update()
 
+256. 内联函数的特殊规则要求在每个使用它们的文件中都对其进行定义，确保内联定义对多文件程序中的所有文件都可用的简便的方法是：
+将内联定义放在定义类的头文件中，如下
+class Stock
+{
+private:
+    ...
+    void set_total();
+    ...
+public:
+    ...
+};
+inline void Stock::set_total()
+{
+    total_val = shares * share_val;
+}
 
+257. 在OOP中，调用成员函数被称为发送消息
+
+258. 数字的格式不一致，可用以下避免科学计数法：
+std::cout.setf(std::ios_base::fixed, std::ios_base::floatfield);
+以下语句导致cout在使用定点表示法时，显示三位小数：
+std::cout.precision(3);
+
+259. 一种典型的数字格式输出：
+using std::cout;
+using std::ios_base;
+
+ios_base::fmtflags orig = cout.setf(ios_base::fixed, ios_base::floatfield);
+//set format to #.###  必须
+std::streamsize prec = cout.precision(3);
+cout << "Company: " << company
+     << "  Shares: " << shares << '\n'
+     << "  Share Price: $" << share_val
+//set format to #.##
+cout.precison(2)
+cout << "  Total Worth: $" << total_val << '\n';
+//restore original format  必须
+cout.setf(orig, ios_base::floatfield);
+cout.precision(prec);
+
+260. 一种典型的类声明的格式：
+class ClassName
+{
+private:
+    data member declarations
+public:
+    member function prototypes
+};
+
+261. 类的初始化不能像一般那样的原因是数据的部分的访问状态是私有的，因此一般来讲最好就是在创建对象时通过成员函数来初始化：
+Stock gitf;
+gift.buy(10, 245.7);
+
+262. 类构造函数：构造新对象、将值赋给它们的数据成员，其名称与类名相同：
+Stock类一个可能的构造函数是名为Stock()的成员函数，
+另外，值得注意的是构造函数虽然没有返回值，但没有被声明为void类型，既构造函数没有声明类型，
+
+263. 不能将类成员名称用作构造函数的参数名，为了避免这种混乱，一种常见的做法是在数据成员名中使用（m_）前缀或（_）后缀，例如：
+private:
+    string m_company;
+    ...
+//
+private:
+    string company_;
+    ...
+
+264. 程序声明对象时，将自动调用构造函数，这样声明：
+显式：Stock food = Stock("World Cabbage", 250, 1.25);
+隐式：Stock food("World Cabbage", 250, 1.25);
+无法使用对象来调用构造函数，因为在构造函数构造出对象之前，对象是不存在的。
+
+265. 我们要尽量不创建未初始化的对象，定义默认构造函数的方式有两种：
+1）给已有构造函数的所有参数提供默认值：
+Stock(const string & co = "Error", int n = 0, double pr = 0.0);
+2）若不想显式地初始化则必须定义一个不接受任何参数地默认构造函数：
+Stock();
+
+266. 一般默认构造函数通常给所有成员提供隐式初始值，这样所有成员在一开始就有已知的合理值：
+Stock::Stock()
+{
+    company = "no name";
+    shares = 0;
+    share_val = 0.0;
+    total_val = 0.0;
+}
+创建了默认构造函数后，便可以声明对象变量，而不对它们进行显式初始化：
+Stock first;		// not first()
+Stock first = Stock();
+Stock *prelief = new Stock;
+
+267. 程序运行的对象过期后将自动调用一个特殊的成员函数--析构函数，来完成清理工作，它的名称是类名前加上~，可以没有返回值和声明类型，不能有参数，因此：
+Stock析构函数的原型必须是：
+~Stock();
+由于Stock的析构函数不承担任何重要工作，因此将它编写为不执行任何操作的函数：
+Stock::~Stock(){}
+//也可以如下皮：
+Stock::~Stock()
+{
+    cout << " Bye~ " << endl;
+}
+
+268. 通常不显式地调用析构函数，编译器帮我们自动用，析构函数是必须的，如果没有提供，那么编译器将隐式地声明一个默认析构函数并在发现导致对象被删除地代码后提供默认析构函数地定义
+
+269. 构造函数和析构函数放在public
+
+270. 可以同时弄两种不同的构造函数，一种显式一种隐式，它们的声明和定义注意以下
+public:
+    Stock(); 	//constructors 1
+    Stock(const std::string & co, long n = 0, double pr = 0.0);	//constructor 2
+    ~Stock(); 
+...
+
+////////////////
+Stock::Stock()
+{
+	std::cout << "Default constructor called \n";
+	company = "no name";
+	shares = 0;
+	share_val = 0.0;
+	total_val = 0.0;
+}
+/////////////////
+Stock::Stock(const std::string & co, long n, double pr)
+{
+	std::cout << "Constructor using " << co << " called \n";
+    company = co;
+    if (n < 0)
+    {
+        std::cout << "Number of shares can't be negative; "
+                  << company << " shares set to 0.\n";
+        shares = 0;
+    }
+    else
+        shares = n;
+    share_val = pr;
+    set_tot();
+}
+/////////////
+Stock::~Stock()
+{
+    std::cout << "Bye, " << company << "!\n ";
+}
+
+271. 根据270有三种初始化方式（可以改用花括号噢）：
+Stock stock1("NanoSmart", 12, 20.0);            // syntax 1
+Stock stock2 = Stock ("Boffo Objects", 2, 2.0); // syntax 2
+Stock stock3;    				// syntax 3
+
+272. 同个类型的对象可以相互直接赋值
+stock2 = stock1;
+
+273. 
 
 
 
