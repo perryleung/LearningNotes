@@ -1281,7 +1281,7 @@ Stock::~Stock()
 
 269. 构造函数和析构函数放在public
 
-270. 可以同时弄两种不同的构造函数，一种显式一种隐式，它们的声明和定义注意以下
+270. 可以同时弄两种不同的构造函数，一种显式一种隐式，（别忘了函数重载）它们的声明和定义注意以下
 public:
     Stock(); 	//constructors 1
     Stock(const std::string & co, long n = 0, double pr = 0.0);	//constructor 2
@@ -1319,7 +1319,7 @@ Stock::~Stock()
     std::cout << "Bye, " << company << "!\n ";
 }
 
-271. 根据270有三种初始化方式（可以改用花括号噢）：
+271. 根据270有三种初始化方式（C++11可以改用花括号噢）：
 Stock stock1("NanoSmart", 12, 20.0);            // syntax 1
 Stock stock2 = Stock ("Boffo Objects", 2, 2.0); // syntax 2
 Stock stock3;    				// syntax 3
@@ -1327,7 +1327,28 @@ Stock stock3;    				// syntax 3
 272. 同个类型的对象可以相互直接赋值
 stock2 = stock1;
 
-273. 
+273. 保证成员函数不修改调用对象，要在声明函数原型和函数定义的头添加const：
+void show() const;
+void Stock::show() const{...}
+这样被称为const成员函数，就像应尽可能将const引用和指针用作函数形参一样，只要类方法不修改调用对象就应该将其声明为const，
+这是我们要遵守的规则
+
+274. 每个类可以有多个构造函数但只能有一个析构函数，析构函数没有返回类型（void也没）没有参数，其名称为类名称前加(~)，特别注意的是：
+如果构造使用了new，则必须提供使用delete的析构函数
+
+275. 当一个方法涉及两个对象时，需要使用this指针
+
+276. 出于效率将使用引用来传递参数，一个用于比较的方法的原型如下：
+const Stock & topval(const Stock & s) const;
+备注：
+该函数隐式地访问一个对象，而显式地访问另一个对象,返回其中一个对象的引用duixiang_temp=yinshiduixiang.topval(& xianshiduixiang);
+括号中的const表明该函数不会修改被显式地访问的对象，而括号后的const表明该函数不会修改被隐式地访问地对象，
+由于该函数返回了两个const对象之一的引用，因此返回类型也应该为const引用
+
+277. 图10.3 364 382
+
+
+
 
 
 
