@@ -1345,7 +1345,57 @@ const Stock & topval(const Stock & s) const;
 括号中的const表明该函数不会修改被显式地访问的对象，而括号后的const表明该函数不会修改被隐式地访问地对象，
 由于该函数返回了两个const对象之一的引用，因此返回类型也应该为const引用
 
-277. 图10.3 364 382
+277. 一般所有的类方法都将this指针设置为调用它的对象的地址，stock1.topval(stock2)将this设置为stock1对象的地址，
+stock2.topval(stock1)将this设置为stock2对象的地址
+
+278. 每个成员函数（包括构造函数和析构函数）都有一个this指针，this指针指向调用对象，如果方法需要引用整个调用对象，则可以使用表达式*this
+备注：
+在函数的括号后使用const限定符将this限定为const，这样将不能使用this来修改对象的值；
+this是对象的地址，一般返回*this，既是对象本身
+const Stock & Stock::topval(const Stock & s) const
+{
+    if ( s.total_val > toval_val )
+        return s;
+    else
+        return *this;
+}
+
+279. 创建一个由所有对象共享的常量
+不行的做法：
+class Bakery
+{
+private:
+    const int Months = 12;
+    double costs[Months];
+}
+//不行，因为在创建对象前将没有用于存储值得空间
+可行的做法1：
+class Bakery
+{
+private:
+    enum {Months = 12};
+    double costs[Months];
+}
+//不会创建类数据成员，所有的对象中不会有枚举，Months只是一个符号名称，在整个类的作用域中，编译器将用12来替代
+可行的做法2：
+class Bakery
+{
+private:
+    static const int Months = 12;
+    double costs[Months];
+}
+//设置静态变量后，将与其他静态变量存储在一起，而不是存储在对象中，因此只有这一个Months会被类的所有对象共享
+
+280. 作用域内枚举，使用枚举时必看：10.6.2
+
+281. C++使用栈来管理自动变量，当新的自动变量被生成后，它们将被添加到堆顶，消亡时从栈中消除它们
+
+282. 栈的描述可以转换为一个类的声明，其中公有成员函数提供了表示栈操作的接口，而私有数据成员负责存储栈数据
+
+283. 使用类来描述抽象数据类型（ADT，abstract data type）是一种很好的方式
+备注：ADT以通用的方式描述数据类型，而没有引入语言或实现细节
+
+284. 
 
 
 
