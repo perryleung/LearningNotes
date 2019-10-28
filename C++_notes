@@ -1431,8 +1431,25 @@ void operator<<(ostream & os, const Time & t)
 
 293. 头文件cstdlib， rand()/srand()
 
-294. 445 12.2
+294. 用static来声明的是静态存储类，静态类成员有一个特点，无论创建多少对象，程序都只创建一个静态类变量副本，类的所有对象共享这么“一个”静态成员，用const就可以作为常量
 
+295. 尽管在private里声明了static静态变量，只要没有初始化就要在实现的文件（在包含类方法的文件中）内初始化
+int StringBad::num_strings = 0;
+备注：
+不能再类声明中初始化静态成员变量，因为声明描述了如何分配内存，但实际并不分配内存
+
+296. 头文件cstring，复制地址std::strcpy(str,s);//两个均是地址，s可以直接是一个字符串
+
+297. 友元：输出的一种重载
+friend std::ostream & operator<<(std::ostream & os, const StringBad & st);
+...
+std::ostream & operator<<(std::ostream & os, const StringBad & st)
+{
+    os << st.str;
+    return os;
+}
+
+298. 12.1.2 / 450/ 432
 
 
 
