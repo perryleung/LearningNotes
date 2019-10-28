@@ -1431,6 +1431,8 @@ void operator<<(ostream & os, const Time & t)
 
 293. 头文件cstdlib， rand()/srand()
 
+294. 445 12.2
+
 
 
 
