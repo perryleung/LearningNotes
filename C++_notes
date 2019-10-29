@@ -1449,7 +1449,10 @@ std::ostream & operator<<(std::ostream & os, const StringBad & st)
     return os;
 }
 
-298. 12.1.2 / 450/ 432
+298. 如果没有定义过，那么C++将自动提供以下成员函数：
+默认构造函数、默认析构函数、复制构造函数、赋值运算符、地址运算符
+
+299. 
 
 
 
