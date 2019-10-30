@@ -1452,8 +1452,111 @@ std::ostream & operator<<(std::ostream & os, const StringBad & st)
 298. 如果没有定义过，那么C++将自动提供以下成员函数：
 默认构造函数、默认析构函数、复制构造函数、赋值运算符、地址运算符
 
-299. 
+299. 如果类没有提供构造函数则编译器提供例如以下默认构造函数：
+Klunk::Klunk(){}
+如果希望在创建对象时不显式地对它进行初始化，则必须显式地定义默认构造，可以没有参数，但可以设置特定的值：
+Klunk::Klunk()
+{
+    klunk_ct = 0;
+    ...
+}
+也可以：
+Klunk::Klunk(int n = 0)
+{
+    klunk_ct = n;
+    ...
+}
 
+300. 复制构造函数用于将一个对象复制到新创建的对象中，就是用于初始化过程中，其原型如下
+Class_name(const Class_name &);
+它接收一个指向类对象的常量引用作为参数，
+StringBad(const StringBad &);
+在新建一个对象并将其初始化为同类现有对象时，复制构造函数都将被调用，有如下四种：
+StringBad ditto(motto);
+StringBad metoo = motto;
+StringBad also = StringBad(motto);
+StringBad * pStringBad = new StringBad(motto);
+
+301. 默认的复制构造函数逐个复制非静态成员（成员复制也称为浅复制），复制的是成员的值
+若：
+StringBad sailor = sports;
+相当于：
+StringBad sailor;
+sailor.str = sports.str;
+sailor.len = sports.len;
+
+302. C++98的字面值0有两个含义：零和空指针；
+另外还有表示空指针的方法：(void*)0 和 NULL；
+C++11一般用关键字nullptr来表示空指针
+
+303. 实现字符串比较：strcmp(const string &st1, const string &st2)
+依照字母顺序，第一个参数较前返回负值；两个字符串相同返回零；第一个参数较后返回正值
+
+304. 利用友元函数的重载运算符可以从公有方法访问私有数据：例如重载中阔号，这是双操作数的
+const char & String::operator[](int i) const
+{ return str[i]; }
+
+305. 可以将成员函数声明为静态，但是不能通过对象来调用静态成员函数，也不能使用this指针
+如果在公有部分声明的，则可以使用类名和作用域解析运算符来调用之，如下
+static int HowMany(){ return num_strings; }
+调用：
+int count = String::HowMany();
+其次，静态成员函数只能使用静态数据成员，不能与特定的对象想关联
+
+306. new -> delete , new [] -> delete []
+
+307. 11章和12章基本没看
+
+308. 继承的语法：
+class RatedPlayer : public TableTennisPlayer
+{ ... };
+1）冒号指出RatedPlayer类的基类是TableTennisplayer类
+2）特殊的声明头表示TableTennisPlayer是一个公有基类，被称为公有派生
+3）派生类的对象包含基类对象
+4）使用公有派生时基类的公有成员和私有成员都将成为派生类的一部分，但是，只能通过基类的公有和保护方法访问
+5）派生类需要自己的构造函数，也可以根据需求添加数据成员和成员函数
+
+309. 派生类的构造函数的创建：首先要把基类的构造函数创建好，然后再创建派生类构造函数时调用基类构造函数，如下
+RatedPlayer::RatedPlayer(unsigned int r, cosnt string & fn, const string & ln, bool ht):TableTennisPlayer(fn,ln,ht)
+{ rating = r; }
+备注：
+其中的TableTannisPlayer(fn,ln,ht)是成员初始化列表，是可执行代码，调用了TableTennisPlayer构造函数：
+RatedPlayer rplayer(1120, "Mallory", "Duck", true);
+若省略成员初始化列表，那么不调用基类的构造函数，默认使用基类的默认构造函数；
+若基类不止一个构造函数，派生类的构造函数调用不同的基类构造函数是根据其定义头的成员初始化列表：
+RatedPlayer::RatedPlayer(unsigned int r, cosnt TableTennisPlayer & tp):TableTennisPlayer(tp)
+{ rating = r; }
+总结派生类构造函数的定义：
+derived::derived(type1 x, type2 y) : base(x,y)
+{...}
+
+310. 基类和派生类的声明建议放在同一个头文件中
+
+311. 派生类构造函数的声明与一般的类声明一样，只是在定义时要注意加上基类的调用
+
+312. 不可以将基类对象和地址赋给派生类引用和指针
+
+313. 有三种继承方式：
+公有继承：建立一种is-a关系，派生类对象也是一个基类对象，可以对基类对象执行的任何操作也可以对派生类对象执行，派生类继承原始类的所有数据成员；
+保护继承：
+私有继承：
+
+312. 派生类对象可以使用基类的方法，如果希望同一个方法在派生类和基类中的行为不同，那么就要用多态，有两种重要的机制可用于实现多态公有继承：
+在派生类中重新定义基类的方法；使用虚方法；
+
+313. 在类中的声明添加了virtual关键字的方法被称为虚方法（virtual method）
+
+314. 在定义方法时为了区分一个方法的实属，要用限定名，有基类版本的限定名和派生类版本的限定名，程序将根据使用对象类型来确定
+
+315. 如果方法是通过引用或指针而不是对象调用的，它将根据在声明时是否有virtual关键字来选择使用：
+有virtual，程序将根据引用类型或指针类型选择方法；
+无virtual，程序将根据引用或指针指向的对象的类型来选择方法；
+因此：
+经常有在基类中将派生类会重新定义的方法声明为虚方法，基类和派生类都要加关键字virtual
+
+316. 基类声明虚析构函数
+
+317. 493/ 13.8
 
 
 
