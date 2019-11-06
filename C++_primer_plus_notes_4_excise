@@ -1,0 +1,10 @@
+第三章
+======
+-1. C++没有提供自动防止超出整形限制的功能，可以使用头文件climits来确定限制情况
+
+-2. long给float赋值、long给double赋值、longlong给double赋值？
+取决于两个类型的长度，最大long是10位数，double最少13位数，longlong可提供19位数
+
+-3. double x; (int)x + int(x);//前者int后者double
+
+-4. 
