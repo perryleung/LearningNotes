@@ -1,0 +1,37 @@
+#第一节
+-1. 死循环 for(;;);
+
+#第二节
+-1. object = entity 就是东西，it may be visible or invisible, in programming languages object is variable. 对象就是变量
+
+-2. 对象 = 属性 + 服务 ； 内置有属性的数据，外置有对外的功能和接口
+
+-3. 面向过程：按时间顺序； 面向对象：存在什么东西来分析；
+
+-4. class 就是高级的struct，struct只有数据，而class不只有数据还有操作
+
+#第三节
+-1. 对象与对象之间的交互是消息，对象的状态不由外力直接改变的，而是让对象自己做不做动作
+
+-2. 所有东西都可以通过总结他们相同的特征来归为一类，类定义了对象长什么样，对象是一个那个类的东西或实例
+
+-3. OOP Characteristics
+1)Everything is an object.
+2)A program is a bunch of objects telling each other what to do by sending messages.(而不是Howtodo)
+3)Each object has its own memory made up of other objects.
+4)Every object has a type.(fish is fish, bird is bird.)
+5)All objects of a particular type can receive the same messages.(所有可以接收相同消息的对象可以被分为同一类，从个体的同性即对象的接口)
+
+-4. 接口的作用：消息交流和保护作用，就是松耦合
+
+-5. 内部的具体实现需要保护起来
+
+-6. Encapsulation封装
+Bundle data and methods dealing with these data together in an object.
+Hide the details of the data and the action.
+Restrict only access to the publicized methods.
+
+
+
+
+
