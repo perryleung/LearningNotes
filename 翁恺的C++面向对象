@@ -31,6 +31,30 @@ Bundle data and methods dealing with these data together in an object.
 Hide the details of the data and the action.
 Restrict only access to the publicized methods.
 
+#第四节
+-1. 每一个类的定义都建议定义成两个文件：一个头文件.h和一个body文件.ccp
+头文件里存放这个类的所具有的函数原型（包括构造函数和析构函数）、还有声明数据成员
+
+-2. 两个连着的冒号叫做域的解析符
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
