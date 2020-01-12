@@ -37,6 +37,89 @@ Restrict only access to the publicized methods.
 
 -2. 两个连着的冒号叫做域的解析符
 
+#第五节
+-1. Definition of a class
+Separated .h and .cpp files are used to define one class.
+Class declaration and prototypes in that class are in the header file(.h).
+All the bodies of these functions are in the source file(.cpp).
+
+-2. the header files
+If a function/class is declared in a header file, you must include the header
+file everywhere the function/class is used and where the function/class is defined.
+
+-3. the class header files are telling you how to used and what you can use. 
+
+-4. #include
+#include is to insert the included file into the .cpp file at where the #include statement is.
+#include "xx.h" : first search in the current directory, then the directories declared somewhere.
+#include <xx.h> : search in the specified directoires, like "includes" or other 系统目录
+#include <xx> : same as #include <xx.h>
+
+-5. Standard header file structure
+#ifndef HEADER_FLAG
+#define HEADER_FLAG
+// type declaration here...
+#endif //HEADER_FLAG
+
+-6. Tips for header
+One class declaration per header file;
+Associated with one source file in the same prefix of file name;
+The contents of a header file is surrounded with #ifndef #define #endif
+
+#第六节
+-1. Abstract
+Abstraction is the ability to ignore details of parts to focus attention on a higher level of a problem.
+
+-2. 在做抽象时尽量在没有或者很少代价的情况下为后来的改进入口做铺路
+
+#第七节
+-1. Fields, Parameters, local variables
+	All three kinds of variable are able to store a value that is appropriate to their defined type;
+	Fields are defined outside constructors and methods;
+	Fields are used to store data that persists throughout the life of an object.
+As such, they maintain the current state of an object. They have a lifetime that lasts as long as their object lasts;
+	Fields have class scope: their accessibility extends throughout the whole class, and so they can be used within any of the 
+constructors or methods of the class in which they are defined.
+
+-2. Fields 就是字段，就是类的成员变量
+
+#第八节
+-1. this : the hidden parameter
+"this" is a hidden parameter for all member functions, with the type of the class;
+void Point::print()
+->(can be regarded as)
+void Point::print(Point *p)
+
+-2. this : pointer to the caller
+Inside member functions, you can use this as the pointer to the cariable that calls the function.
+"this" is a natural local variable of all class member functions that you can not define, but can use it directly.
+
+#第九节
+-1. 构造函数: Guaranteed initialization with the constructor
+If a class has a constructor, the compiler automatically calls that constructor at the point an object is created,
+before clinet programmers can get their hands on the object;
+The name of the constructor is the same as the name of the class.
+
+-2. 构造函数没有返回类型，但可以有参数，并且当被定义一个对象时就会被调用；
+
+-3. 析构函数: The destructor，在这个对象要结束时被调用，不能有参数，而且不能有返回类型
+In C++, cleanup is as important as initialization and is therefore guaranteed with the destructor;
+The destructor is named after the name of the class with a leading tilde(~). The destructor never has any arguments.
+
+#第十节
+-1. 
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
