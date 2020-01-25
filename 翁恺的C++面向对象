@@ -123,7 +123,26 @@ Y y2[2] = { Y(1) }; // not ok
 new int; new Stash;// Stash是一个类名称，这里调用构造函数 new int[10]; 
 delete p; delete[] p;
 
--2. 
+-2. Tips for new and delete
+> Don't use delete to free memory that new didn't allocate;
+> Don't use delete to free the same block of memory twice in succession;
+> Use delete [] if used new [] to allocate an array;
+> Use delete (no brackets) if used new to allocate a single entity;
+> It's safe to apply delete to the null pointer (nothing happens);
+
+#第十二节
+-1. 类与结构对比：class defaults to private; struct defaults to public;
+
+#第十三节
+-1. Initialization list 与 assignment的区别
+> Student::Student(string s):name(s) {} //initialization, before constructor, 初始化，推荐都用这个
+> Student::Student(string s) { name = s;} //assignment, 赋值 = 初始化 + 赋值
+
+#第十四节
+-1. 组合：construct new object with existing objects, it is the relationship of "has-a"
+
+#第十五节
+-1. 
 
 
 
