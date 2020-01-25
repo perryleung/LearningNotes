@@ -107,9 +107,23 @@ In C++, cleanup is as important as initialization and is therefore guaranteed wi
 The destructor is named after the name of the class with a leading tilde(~). The destructor never has any arguments.
 
 #第十节
--1. 
+-1. 即使是C语言也可以在随意地方定义新变量；
 
+-2. 空间是进了大括号的时间就分配了，但是构造函数是在运行到那一行的时候才会运行；
 
+-3. 没有构造的时候是不能够析构的；
+
+-4. 以下的是一种构造函数，需要一个初始化变量输入a
+struct Y { float f; int i; Y(int a) };
+Y y1[] = {Y(1), Y(2), Y(3) };	//ok
+Y y2[2] = { Y(1) }; // not ok
+
+#第十一节
+-1. new与delete
+new int; new Stash;// Stash是一个类名称，这里调用构造函数 new int[10]; 
+delete p; delete[] p;
+
+-2. 
 
 
 
