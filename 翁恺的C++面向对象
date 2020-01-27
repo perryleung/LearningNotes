@@ -139,12 +139,77 @@ delete p; delete[] p;
 > Student::Student(string s) { name = s;} //assignment, 赋值 = 初始化 + 赋值
 
 #第十四节
--1. 组合：construct new object with existing objects, it is the relationship of "has-a"
+-1. 组合：construct new object with existing objects, it is the relationship of "has-a"，就是用已有的对象拼出一个新的对象
 
 #第十五节
+-1. 继承：Inheritance is to take the existing class, clone it, and then make additions and modifications to the clone，就是用类去拼出新的类
+
+-2. Inheritance allows sharing of design for Member data\ Member functions\ Interfaces接口就是public那些
+
+-3. 只要private中有成员变量就要在构造函数中用初始化列表的方式初始化：
+class A{
+public:
+	A():i(0) { cout<<"A::A()"<<endl; }
+	~A() { cout<<"A::~A()"<<endl; }
+private:
+	int i;
+}
+
+#第十六节
+-1. 尽量用已有的代码来写新的代码；
+
+-2. 子类继承父类后，子类声明了对象会调用父类的构造函数；另外父类的构造函数被调用时初始化时要用initialization list来初始化
+
+-3. 顺序是：父类构造、子类构造、子类析构、父类析构
+
+#第十七节
+-1. To define a function with an arguement list, defaults must be added from right to left.
+int harpo( int n, int m=4, int j=5 );
+int chico( int n, int m=6, int j); //illeagle
+
+-2. 尽量不要用default values
+
+#第十八节
+-1. 每一个程序都是一个堆栈，栈里面有两个东西，一个是本地变量，一个是返回地址；
+
+-2. inline函数在头文件和主文件内都要加关键字；
+
+-3. 使用inline时要把函数的body放在使用的该函数的主文件里头；
+
+-4. Tradeoff of inline functions
+> Body of the called function is to be inserted into the caller;
+> This may expand the code size;
+> But deduces the overhead of calling time;
+> So it gains speed at the expenses of space;
+> In most cases, it's worth;
+> It is much better than macro in C, it checks the types of the parameters;
+
+-5. 递归不能用inline
+
+-6. inline or not：
+> Inline:
+>> Small functions, 2 or 3 lines;
+>> Frequency called functions, e.g. inside loops
+> Not inline:
+>> Very large functions, more than 20 lines
+>> Recursive functions
+
+#第十九节
+-1. pointers and const
+> char * const q = "abc"; // q is const
+  *q = 'c'; // OK
+  q++; 	    // Error
+> const char *p = "ABCD";
+  // (*p) is a const char
+  *p = 'b'; // ERROR
+  p++; // OK
+ 
+-2. const写在 * 的前面就是对象是const，写在 * 后面就是指针是const；
+
+-3. 传一个参数的地址进一个函数比传一个参数的值更加方便省时间，但是最好要加const
+
+#第二十节
 -1. 
-
-
 
 
 
