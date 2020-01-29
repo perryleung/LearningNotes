@@ -229,12 +229,24 @@ int chico( int n, int m=6, int j); //illeagle
 > char &r = c;    // a reference to a character
 可以认为 r 是 c 的别名，当我们想用 c 时我们可以用 r ，我们永远可以把 c 和 r 当成等效
 
--2. 
+-2. pointers vs. references
+> References:
+>> can't be null;
+>> are dependent on an existing variable, they are an alias for an variable;
+>> can't change to a new "address" location;
+> Pointers:
+>> can be set to null;
+>> pointer is independent of existing objects;
+>> can change to point to a different address;
 
+-3. 没有reference的reference
+int x;
+int &a = x; // ok
+int &b = a; // not ok
+int &b = x; // ok too
 
-
-
-
+#第二十二节
+-1. 
 
 
 
