@@ -209,8 +209,27 @@ int chico( int n, int m=6, int j); //illeagle
 -3. 传一个参数的地址进一个函数比传一个参数的值更加方便省时间，但是最好要加const
 
 #第二十节
--1. 
+-1. 如果一个对象前有const，那么此对象的所有值不能被修改；
 
+-2. 一般的面向对象编程编写有三个文件夹，第一个是声明(.h)，第二个是函数的body(.cpp)，第三个是主程序(.cpp)
+
+-3. Const member function usage
+> repeat the const keyword in the definition as well as the declaration:
+>> int get_day() const;
+>> int get_day() const {return day};
+> Function members that do not modify data should be declared const;
+> const member functions are safe for const objects
+
+-4. 有相同的函数名和参数一致的情况下，若带const结尾的函数则使用优先，并且函数重载；
+
+#第二十一节
+-1. Declaring references 
+> char c;
+> char *p = &c;   // a pointer to a character
+> char &r = c;    // a reference to a character
+可以认为 r 是 c 的别名，当我们想用 c 时我们可以用 r ，我们永远可以把 c 和 r 当成等效
+
+-2. 
 
 
 
