@@ -8,4 +8,4 @@
 - 4. 看就是了 
 
 - 5. 添加新笔记的步骤是在放有笔记文件夹的总目录下git bash here，然后关联远程仓库：
-git remote add origin git@github.com:perryleung/LearningNotes.git
+git remote add perryleung git@github.com:perryleung/LearningNotes.git
