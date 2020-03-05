@@ -20,6 +20,19 @@ ListNode* create(int n){
 	}
 	return head;
 }
+ListNode* create_new(int n, int a[]){
+	ListNode *head = NULL;
+	ListNode *p = NULL;
+	for(int i = 0; i < n; i++){
+		if(head == NULL){
+			head = p = new ListNode(a[i]);
+		}else{
+			p->next = new ListNode(a[i]);
+			p = p->next;
+		}
+	}
+	return head; 
+} 
 
 void display(ListNode *head){
 	ListNode *p = head->next;
