@@ -1,6 +1,9 @@
 '''
 CSDN : https://blog.csdn.net/Brouce__Lee/article/details/81872040
 '''
+"""
+not really works
+"""
 
 1、初次安装需要在终端配置：
 $ git config --global user.name "perryleung"
