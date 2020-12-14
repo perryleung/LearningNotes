@@ -39,6 +39,8 @@ int Sequential_Search2(int *a,int n,int key)
 }
 
 /* 折半查找 */
+//有序表查找，前提是表已经有序
+//比喻成一棵完全二叉树，它的高度是log2n+1（最大高度），所以复杂度是对数级别
 int Binary_Search(int *a,int n,int key)
 {
 	int low,high,mid;
@@ -61,6 +63,7 @@ int Binary_Search(int *a,int n,int key)
 }
 
 /* 插值查找 */
+//有序查找，适合表比较长、关键字分布比较均匀的查找表，此情况下性能比二分查找要好
 int Interpolation_Search(int *a,int n,int key)
 {
 	int low,high,mid;
@@ -80,6 +83,7 @@ int Interpolation_Search(int *a,int n,int key)
 }
 
 /* 斐波那契查找 */
+//利用了黄金分割原理来实现
 int Fibonacci_Search(int *a,int n,int key)
 {
 	int low,high,mid,i,k=0;

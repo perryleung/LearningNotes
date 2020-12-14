@@ -56,6 +56,21 @@ void BubbleSort0(SqList *L)
 	}
 }
 
+//selfmade BubbleSort
+void BubbleSort_SM(SqList *l)
+{
+	int i, j;
+	for (i = 1; i < l->length; i++)
+	{
+		for (j = l->length - 1; j >= i; j--)
+		{
+			if (l->r[j] > l->r[j + 1])
+				swap(l, j, j + 1);
+		}
+	}
+}
+
+
 /* 对顺序表L作冒泡排序 */
 void BubbleSort(SqList *L)
 { 
@@ -91,6 +106,23 @@ void BubbleSort2(SqList *L)
 	}
 }
 
+//SelectSort_selfMade
+void SelectSort_SM(SqList *l)
+{
+	int i, j, min;
+	for (i = 1; i < l->length; i++)
+	{
+		min = i;
+		for (j = i + 1; j < l->length; j++)
+		{
+			if(l->r[min] > l->r[j])
+				min = j;
+		}
+		if(min != i)
+			swap(l, i, min);
+	}
+}
+
 
 /* 对顺序表L作简单选择排序 */
 void SelectSort(SqList *L)
@@ -106,6 +138,32 @@ void SelectSort(SqList *L)
         }
 		if(i!=min)						/* 若min不等于i，说明找到最小值，交换 */
 			swap(L,i,min);				/* 交换L->r[i]与L->r[min]的值 */
+	}
+}
+
+
+//selfmade
+/*
+ *	个人理解：第0是哨兵位，从第2元素开始遍历，每一次遍历都跟它的前面那个元素比较
+ *	如果比前面的元素大，那就不动
+ *	如果比前面的元素小：把当前的元素放到哨兵位（作为子遍历的结束条件），然后开始子遍历：
+ *	子遍历如下：因为前面的元素比当前元素大，所以要把前面的大元素往后搬
+ *			   这里已经假设了当前元素是已经排好序的了（实际上就是排好序了）
+ *			   然后一个个往后搬，直到碰到一个不大于哨兵位的元素
+ *			   最后就找到了这个元素插入的位置了
+ */
+void InsertSort_SM(SqList *l)
+{
+	int i, j;
+	for (i = 2; i < l->length; i++)
+	{
+		if (l->r[i] < l->r[i - 1])
+		{
+			l->r[0] = l->r[i];
+			for (j = i - 1; l->r[j] > l->r[0]; j--)
+				l->r[j + 1] = l->r[j];
+			l->r[j + 1] = l->r[0];
+		}
 	}
 }
 
@@ -126,6 +184,7 @@ void InsertSort(SqList *L)
 }
 
 /* 对顺序表L作希尔排序 */
+// 希尔排序就是增量可变的插入排序
 void ShellSort(SqList *L)
 {
 	int i,j,k=0;
@@ -147,14 +206,62 @@ void ShellSort(SqList *L)
 		print(*L);
 	}
 	while(increment>1);
-
 }
 
+void ShellSort_SM(SqList* l)
+{
+	int i, j, incre = l->length;
+	do
+	{
+		incre = incre / 3 + 1;
+		for (i = 1 + incre; i < l->length; i++)
+		{
+			if(l->r[i] > l->r[i - incre])
+			{
+				l->r[0] = l->r[i];
+				for (j = i - incre; j > 0 && l->r[j] > l->r[0]; j -= incre)
+					l->r[j + incre] = l->r[j];
+				l->r[j + incre] = l->r[0];
+			}
+		}
+	} while (incre > 1);
+	
+}
 
 /* 堆排序********************************** */
 
 /* 已知L->r[s..m]中记录的关键字除L->r[s]之外均满足堆的定义， */
 /* 本函数调整L->r[s]的关键字,使L->r[s..m]成为一个大顶堆 */
+
+void HeapAdjust_SM(SqList *l, int s, int m)
+{
+	int temp, j;
+	temp = l->r[s];
+	for (j = 2 * s; j <= m; j *= 2)
+	{
+		if (j < m && l->r[j] < l->r[j + 1])
+			j++;
+		if(temp > l->r[j])
+			break;
+		l->r[s] = l->r[j];
+		s = j;	//这里后的迭代目标根变换了
+	}
+	l->r[s] = temp;
+}
+void HeapSort_SM(SqList *l)
+{
+	int i;
+	for (i = l->length / 2; i > 0; i--)
+		HeapAdjust_SM(l, i, l->length);
+	for (i = l->length; i > 0; i--)
+	{
+		swap(l, 1, l->r[l->length]);
+		HeapAdjust_SM(l, 1, i - 1);
+	}
+}
+
+
+
 void HeapAdjust(SqList *L,int s,int m)
 { 
 	int temp,j;
@@ -213,6 +320,23 @@ void Merge(int SR[],int TR[],int i,int m,int n)
 	}
 }
 
+void Merge_SM(int SR[], int TR[], int i, int m, int n)
+{
+	int j, k;
+	for (k = i, j = m + 1; j <= n && i <= m; k++)
+	{
+		if(SR[i] < SR[j])
+			TR[k] = SR[i++];
+		else
+			TR[k] = SR[j++];
+	}
+	if (j <= n)
+		for (int l = 0; l <= n - j; l++)
+			TR[k + l] = SR[j + l];
+	if (i <= m)
+		for (int l = 0; l <= m - i; l++)
+			TR[k + l] = SR[i + l];
+}
 
 /* 递归法 */
 /* 将SR[s..t]归并排序为TR1[s..t] */

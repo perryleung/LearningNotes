@@ -64,7 +64,7 @@ void LeftBalance(BiTree *T)
 			Lr=L->rchild; /*  Lr指向T的左孩子的右子树根 */ 
 			switch(Lr->bf)
 			{ /*  修改T及其左孩子的平衡因子 */ 
-				case LH: (*T)->bf=RH;
+				case LH: (*T)->bf=RH;	//？
 						 L->bf=EH;
 						 break;
 				case EH: (*T)->bf=L->bf=EH;
@@ -95,7 +95,7 @@ void RightBalance(BiTree *T)
 			  Rl=R->lchild; 			/*  Rl指向T的右孩子的左子树根 */ 
 			  switch(Rl->bf)
 			  { 						/*  修改T及其右孩子的平衡因子 */ 
-				case RH: (*T)->bf=LH;
+				case RH: (*T)->bf=LH;	//？
 						 R->bf=EH;
 						 break;
 				case EH: (*T)->bf=R->bf=EH;
